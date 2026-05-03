@@ -1,317 +1,277 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 /*
-  SAULT landing page
-  Notes:
-  - All icons are inline SVGs so the preview does not depend on external icon CDNs.
-  - The hero image is intentionally set to a masculine chef/knife visual direction.
-  - Tailwind utility classes control layout, spacing, color, and responsive behavior.
+  SAULT Culinary - Modernist Portfolio Version
+  Inspired by Mouthwash Studio's Swiss design principles:
+  - Grid-based, minimal layout
+  - Generous whitespace
+  - Large, prominent visuals
+  - Concise text hierarchies
+  - Focus on content over chrome
 */
 
-function ArrowIcon({ className = "", size = 18 }) {
+function NavArrow() {
   return (
-    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M7 17L17 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9 7H17V15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function CircleIcon({ className = "", size = 88 }) {
-  return (
-    <svg className={className} width={size} height={size} viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <circle cx="50" cy="50" r="42" stroke="currentColor" strokeWidth="1" />
-      <circle cx="50" cy="50" r="6" fill="currentColor" />
-    </svg>
-  );
-}
-
-function SignalIcon({ className = "", size = 34 }) {
-  return (
-    <svg className={className} width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <circle cx="24" cy="24" r="4" fill="currentColor" />
-      <circle cx="24" cy="24" r="13" stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="24" cy="24" r="21" stroke="currentColor" strokeWidth="1.2" opacity="0.65" />
-    </svg>
-  );
-}
-
-function SpeedIcon({ className = "", size = 34 }) {
-  return (
-    <svg className={className} width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <circle cx="24" cy="24" r="19" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M24 24L34 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M14 32H34" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.65" />
-    </svg>
-  );
-}
-
-function SparkIcon({ className = "", size = 34 }) {
-  return (
-    <svg className={className} width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <path d="M24 6L28.5 19.5L42 24L28.5 28.5L24 42L19.5 28.5L6 24L19.5 19.5L24 6Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M37 7V15" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <path d="M33 11H41" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function LockIcon({ className = "", size = 34 }) {
-  return (
-    <svg className={className} width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <rect x="12" y="21" width="24" height="18" rx="3" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M17 21V16C17 11.6 20.1 8 24 8C27.9 8 31 11.6 31 16V21" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="24" cy="30" r="2" fill="currentColor" />
-    </svg>
-  );
-}
-
-const heroImageUrl = "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1600&auto=format&fit=crop";
-const founderImageUrl = "https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1400&auto=format&fit=crop";
-
-const engagements = [
+const projects = [
   {
-    label: "01",
-    title: "SAULT SIGNAL SESSION™",
-    desc: "Rapid white-space intelligence and immediate concept direction for brands that need sharper external perspective now.",
+    id: 1,
+    title: "Menu Systems",
+    category: "Strategic Architecture",
+    description: "Proprietary flavor systems and menu engineering for QSR brands",
+    image: "https://images.unsplash.com/photo-1495565720989-61d1dba3fc12?q=80&w=2000&auto=format&fit=crop",
+    color: "#f3eee3"
   },
   {
-    label: "02",
-    title: "SAULT EMBED™",
-    desc: "A private ongoing culinary intelligence partnership for teams that need outside thinking integrated into the innovation rhythm.",
+    id: 2,
+    title: "Concept Development",
+    category: "Innovation Strategy",
+    description: "From white space identification to commercial launch architecture",
+    image: "https://images.unsplash.com/photo-1495567720989-61d1dba3fc12?q=80&w=2000&auto=format&fit=crop",
+    color: "#f3eee3"
   },
   {
-    label: "03",
-    title: "SAULT TERRITORY MAP™",
-    desc: "Category opportunity architecture before development dollars are spent chasing incremental ideas.",
+    id: 3,
+    title: "Flavor Intelligence",
+    category: "Research & Trends",
+    description: "Emerging taste patterns and behavioral consumer mapping",
+    image: "https://images.unsplash.com/photo-1504674900954-da9aac1b5a04?q=80&w=2000&auto=format&fit=crop",
+    color: "#f3eee3"
   },
   {
-    label: "04",
-    title: "SAULT LAB ACCESS™",
-    desc: "Proprietary culinary experience systems, future concept platforms, and next-generation flavor formats.",
+    id: 4,
+    title: "Category Architecture",
+    category: "Competitive Analysis",
+    description: "Territory definition and opportunity clustering before investment",
+    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=2000&auto=format&fit=crop",
+    color: "#f3eee3"
   },
 ];
 
-const pillars = [
+const engagementModels = [
   {
-    Icon: SignalIcon,
-    title: "Outside Signal",
-    desc: "We identify emerging menu, flavor, and behavioral white space beyond internal repetition.",
+    number: "01",
+    name: "SIGNAL SESSION™",
+    duration: "4 weeks",
+    desc: "Rapid external perspective on menu opportunity and flavor direction."
   },
   {
-    Icon: SpeedIcon,
-    title: "Compressed Speed",
-    desc: "Built to move faster than traditional internal development loops.",
+    number: "02",
+    name: "EMBED™",
+    duration: "Ongoing",
+    desc: "Integrated culinary intelligence partnership within your innovation cycle."
   },
   {
-    Icon: SparkIcon,
-    title: "Ownable Thinking",
-    desc: "Rituals, systems, and flavor architecture designed for distinction.",
+    number: "03",
+    name: "TERRITORY MAP™",
+    duration: "6 weeks",
+    desc: "Category architecture and opportunity structure before development spend."
   },
   {
-    Icon: LockIcon,
-    title: "Confidential Access",
-    desc: "Senior-level external ideation without permanent internal expansion.",
+    number: "04",
+    name: "LAB ACCESS™",
+    duration: "Custom",
+    desc: "Proprietary systems, concept platforms, and next-generation formats."
   },
 ];
 
-const expectedEngagementTitles = [
-  "SAULT SIGNAL SESSION™",
-  "SAULT EMBED™",
-  "SAULT TERRITORY MAP™",
-  "SAULT LAB ACCESS™",
-];
+export default function ModernistPortfolio() {
+  const [hoveredProject, setHoveredProject] = useState(null);
 
-// Lightweight runtime checks to catch accidental content deletions while editing.
-console.assert(engagements.length === 4, "Expected four SAULT engagement models.");
-console.assert(pillars.length === 4, "Expected four SAULT value pillars.");
-console.assert(
-  expectedEngagementTitles.every((title) => engagements.some((item) => item.title === title)),
-  "Expected all core SAULT offers to render."
-);
-console.assert(heroImageUrl.includes("unsplash"), "Expected a valid hero image URL.");
-
-export default function SaultLandingPage() {
   return (
-    <main className="min-h-screen bg-[#f3eee3] text-[#10100e] selection:bg-[#10100e] selection:text-[#f3eee3]">
-      {/* Hero section: the first major brand impression. The right-side image is the masculine chef/knife visual. */}
-      <section className="relative overflow-hidden border-b border-[#1f1b16]/20">
-        <div className="absolute left-[-12rem] top-[-12rem] h-[34rem] w-[34rem] rounded-full border border-[#1f1b16]/10" />
-        <div className="absolute right-[-10rem] bottom-[-10rem] h-[28rem] w-[28rem] rounded-full border border-[#1f1b16]/10" />
-
-        <nav className="flex items-center justify-between px-6 py-7 md:px-14">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#10100e]">
-              <div className="h-[2px] w-7 bg-[#10100e]" />
-            </div>
-            <div className="text-xs font-semibold tracking-[0.35em]">SAULT CULINARY</div>
+    <main className="bg-[#f3eee3] text-[#10100e] min-h-screen">
+      {/* Navigation */}
+      <header className="sticky top-0 z-40 bg-[#f3eee3]/95 backdrop-blur-sm border-b border-[#10100e]/10">
+        <nav className="flex items-center justify-between px-6 md:px-12 py-6">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-xs font-semibold tracking-[0.4em] uppercase"
+          >
+            SAULT
+          </motion.div>
+          <div className="flex items-center gap-8">
+            <a href="#work" className="text-xs font-light tracking-[0.2em] uppercase hover:opacity-60 transition">Work</a>
+            <a href="#contact" className="text-xs font-light tracking-[0.2em] uppercase hover:opacity-60 transition">Contact</a>
           </div>
-
-          <a className="hidden items-center gap-2 text-xs font-semibold tracking-[0.25em] md:flex" href="#contact">
-            INQUIRE <ArrowIcon size={15} />
-          </a>
         </nav>
+      </header>
 
-        <div className="grid min-h-[82vh] grid-cols-1 items-stretch md:grid-cols-[1.08fr_.92fr]">
-          <div className="flex flex-col justify-center px-6 py-16 md:px-14">
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="mb-8 text-xs font-semibold uppercase tracking-[0.35em] text-[#8c7449]"
+      {/* Hero / Intro Section */}
+      <section className="px-6 md:px-12 py-24 md:py-32">
+        <div className="max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-16"
+          >
+            <h1 className="text-5xl md:text-7xl font-black uppercase leading-tight tracking-[-0.04em] mb-8">
+              Culinary Innovation Partner
+            </h1>
+            <p className="text-lg md:text-xl leading-relaxed text-[#514b41] max-w-2xl">
+              Private intelligence and strategic concept development for restaurant, QSR, and CPG brands that need external perspective on menu territory, flavor systems, and consumer experience.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Work Grid */}
+      <section id="work" className="px-6 md:px-12 py-24">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <p className="text-xs font-semibold tracking-[0.35em] uppercase text-[#8c7449] mb-4">Strategic Services</p>
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-[-0.03em]">Core Engagements</h2>
+        </motion.div>
+
+        {/* Project Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6 mb-32">
+          {projects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              onMouseEnter={() => setHoveredProject(project.id)}
+              onMouseLeave={() => setHoveredProject(null)}
+              className="group cursor-pointer"
             >
-              Private culinary innovation partner
-            </motion.p>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="max-w-5xl text-[12vw] font-black uppercase leading-[0.82] tracking-[-0.08em] md:text-[6.6rem]"
-            >
-              Sharper Signal.
-              <br />
-              Faster Concepts.
-              <br />
-              Ownable Territory.
-            </motion.h1>
-
-            <div className="mt-10 grid max-w-3xl gap-8 border-l border-[#10100e] pl-7 md:grid-cols-[1.2fr_.8fr]">
-              <p className="text-lg leading-8 text-[#3f3a32]">
-                SAULT helps restaurant, QSR, CPG, and emerging food brands uncover the menu white space, flavor systems, and consumer experiences internal teams often miss.
-              </p>
-              <div className="text-xs font-semibold uppercase leading-7 tracking-[0.24em] text-[#8c7449]">
-                Stealth development
-                <br />
-                Strategic concept generation
-                <br />
-                Confidential partnership
+              {/* Image Container */}
+              <div className="mb-6 overflow-hidden rounded-lg bg-[#e8e3d8] aspect-square md:aspect-auto md:h-[400px]">
+                <motion.div
+                  className="w-full h-full bg-cover bg-center"
+                  style={{ backgroundImage: `url(${project.image})` }}
+                  animate={{
+                    scale: hoveredProject === project.id ? 1.05 : 1,
+                  }}
+                  transition={{ duration: 0.4 }}
+                />
               </div>
-            </div>
-          </div>
 
-          <div className="relative min-h-[520px] bg-[#111] md:min-h-full">
-            {/* Hero image: chosen/positioned to read as a male chef hand with a knife. */}
-            <div
-              className="absolute inset-5 rounded-[2rem] bg-cover bg-center grayscale-[15%]"
-              style={{ backgroundImage: `url(${heroImageUrl})` }}
-              aria-label="Masculine chef hands working with a knife in a dark culinary setting"
-            />
-            <div className="absolute inset-5 rounded-[2rem] bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="absolute bottom-10 left-10 right-10 rounded-3xl border border-white/20 bg-black/30 p-6 text-[#f3eee3] backdrop-blur-md">
-              <p className="text-xs uppercase tracking-[0.3em] text-[#c4a15f]">
-                Built for brands that need what internal teams miss
-              </p>
-            </div>
-          </div>
+              {/* Text Content */}
+              <div className="space-y-3">
+                <p className="text-xs font-semibold tracking-[0.3em] uppercase text-[#8c7449]">
+                  {project.category}
+                </p>
+                <h3 className="text-2xl md:text-3xl font-black uppercase tracking-[-0.02em] group-hover:opacity-70 transition">
+                  {project.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-[#514b41] max-w-sm">
+                  {project.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Engagement Models Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="border-t border-[#10100e]/10 pt-24"
+        >
+          <p className="text-xs font-semibold tracking-[0.35em] uppercase text-[#8c7449] mb-4">Service Models</p>
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-[-0.03em] mb-16">Engagement Options</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8">
+            {engagementModels.map((model, idx) => (
+              <motion.div
+                key={model.number}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="pb-8 border-b border-[#10100e]/10"
+              >
+                <div className="flex items-baseline gap-4 mb-6">
+                  <span className="text-3xl font-black tracking-[-0.02em]">{model.number}</span>
+                  <h3 className="text-xl md:text-2xl font-black uppercase tracking-[-0.02em]">
+                    {model.name}
+                  </h3>
+                </div>
+                <p className="text-xs font-semibold tracking-[0.2em] uppercase text-[#8c7449] mb-4">
+                  {model.duration}
+                </p>
+                <p className="text-sm leading-relaxed text-[#514b41]">
+                  {model.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </section>
 
-      {/* Problem section: establishes why an external innovation partner matters. */}
-      <section className="grid grid-cols-1 border-b border-[#1f1b16]/20 md:grid-cols-[.8fr_1.2fr]">
-        <div className="border-b border-[#1f1b16]/20 p-8 md:border-b-0 md:border-r md:p-14">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-[#8c7449]">The problem</p>
-          <h2 className="text-4xl font-black uppercase leading-none tracking-[-0.04em] md:text-6xl">
-            Most food innovation is happening inside the same walls.
-          </h2>
-        </div>
-        <div className="p-8 md:p-14">
-          <p className="max-w-3xl text-2xl leading-10 tracking-[-0.02em] text-[#2d2923]">
-            Brands do not lose relevance because they stop developing. They lose relevance because they stop seeing what is no longer visible from inside.
-          </p>
-          <p className="mt-8 max-w-3xl text-lg leading-8 text-[#514b41]">
-            SAULT operates as a discreet external innovation unit — built to bring outside signal, strategic culinary intelligence, and commercially aware concept development into the moments where internal innovation begins to plateau.
-          </p>
-        </div>
-      </section>
-
-      {/* Pillars: quick proof points that explain the SAULT advantage. */}
-      <section className="px-6 py-20 md:px-14">
-        <div className="mb-12 flex items-end justify-between gap-8">
-          <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-[#8c7449]">Why brands engage SAULT</p>
-            <h2 className="text-5xl font-black uppercase leading-none tracking-[-0.05em] md:text-7xl">
-              Outside signal.
-              <br />
-              Internal impact.
+      {/* About / Founder Section */}
+      <section className="px-6 md:px-12 py-24 md:py-32 border-t border-[#10100e]/10">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="text-xs font-semibold tracking-[0.35em] uppercase text-[#8c7449] mb-6">About</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-[-0.03em] mb-12">
+              Led by Aron Habiger
             </h2>
-          </div>
-          <CircleIcon className="hidden text-[#8c7449] md:block" />
-        </div>
-
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[2rem] border border-[#10100e]/25 bg-[#10100e]/25 md:grid-cols-4">
-          {pillars.map(({ Icon, title, desc }) => (
-            <div key={title} className="bg-[#f3eee3] p-8">
-              <Icon className="mb-12 text-[#8c7449]" />
-              <h3 className="mb-4 text-xl font-black uppercase tracking-[-0.02em]">{title}</h3>
-              <p className="leading-7 text-[#514b41]">{desc}</p>
+            <p className="text-lg md:text-xl leading-relaxed text-[#514b41] mb-8">
+              Corporate culinary innovation executive operating at the intersection of QSR commercialization, flavor systems, menu trend intelligence, and disruptive concept development. Specialized in bringing external perspective to food brands that have lost internal innovation momentum.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-[#10100e]/10">
+              {["QSR Commercialization", "Flavor Architecture", "Concept Systems", "Innovation Strategy"].map((skill) => (
+                <div key={skill} className="py-4">
+                  <p className="text-xs font-semibold tracking-[0.3em] uppercase text-[#8c7449]">
+                    {skill}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Engagement suite: maps SAULT offers into clear buying doors. */}
-      <section className="bg-[#11100e] px-6 py-24 text-[#f3eee3] md:px-14">
-        <div className="mb-14 grid gap-8 md:grid-cols-[.7fr_1.3fr]">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#c4a15f]">Strategic engagements</p>
-          <h2 className="text-5xl font-black uppercase leading-none tracking-[-0.05em] md:text-7xl">
-            Flexible access to private culinary intelligence.
+      {/* Contact / CTA Section */}
+      <section id="contact" className="px-6 md:px-12 py-24 md:py-32 border-t border-[#10100e]/10">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl"
+        >
+          <p className="text-xs font-semibold tracking-[0.35em] uppercase text-[#8c7449] mb-6">Get Started</p>
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-[-0.04em] mb-8">
+            Let's talk strategy.
           </h2>
-        </div>
-
-        <div className="space-y-4">
-          {engagements.map((item) => (
-            <div
-              key={item.title}
-              className="group grid items-center gap-6 rounded-[2rem] border border-white/15 bg-white/[0.03] p-6 transition-all hover:bg-white/[0.07] md:grid-cols-[.16fr_.5fr_1fr_.12fr] md:p-8"
-            >
-              <div className="text-sm font-semibold tracking-[0.3em] text-[#c4a15f]">{item.label}</div>
-              <h3 className="text-2xl font-black uppercase tracking-[0.05em]">{item.title}</h3>
-              <p className="max-w-3xl leading-7 text-[#cfc8b9]">{item.desc}</p>
-              <ArrowIcon className="text-[#c4a15f] transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Founder section: reinforces credibility and makes the practice feel human. */}
-      <section className="grid grid-cols-1 border-b border-[#1f1b16]/20 md:grid-cols-2">
-        <div
-          className="min-h-[520px] bg-cover bg-center grayscale-[30%]"
-          style={{ backgroundImage: `url(${founderImageUrl})` }}
-          aria-label="Founder credibility image"
-        />
-        <div className="flex flex-col justify-center p-8 md:p-14">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-[#8c7449]">Founder authority</p>
-          <h2 className="mb-8 text-5xl font-black uppercase leading-none tracking-[-0.05em] md:text-7xl">Led by Aron Habiger</h2>
-          <p className="text-xl leading-9 text-[#3f3a32]">
-            Corporate culinary innovation executive operating at the intersection of QSR commercialization, flavor systems, menu trend intelligence, and disruptive concept development.
+          <p className="text-lg leading-relaxed text-[#514b41] mb-12 max-w-2xl">
+            For restaurant, QSR, CPG, and emerging food brands ready to move beyond incremental thinking.
           </p>
-          <div className="mt-10 grid gap-4 text-sm font-semibold uppercase tracking-[0.22em] text-[#8c7449] md:grid-cols-2">
-            <div className="border-t border-[#10100e]/25 pt-4">QSR commercialization</div>
-            <div className="border-t border-[#10100e]/25 pt-4">Flavor architecture</div>
-            <div className="border-t border-[#10100e]/25 pt-4">Concept systems</div>
-            <div className="border-t border-[#10100e]/25 pt-4">Innovation strategy</div>
-          </div>
-        </div>
+          
+          <motion.button
+            whileHover={{ x: 4 }}
+            className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.25em] border-b-2 border-[#10100e] pb-2 hover:opacity-60 transition"
+          >
+            Start Conversation
+            <NavArrow />
+          </motion.button>
+        </motion.div>
       </section>
 
-      {/* Final CTA: gives prospects one clear action. */}
-      <section id="contact" className="relative overflow-hidden px-6 py-28 text-center md:px-14">
-        <div className="absolute left-1/2 top-1/2 h-[42rem] w-[42rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#10100e]/10" />
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.35em] text-[#8c7449]">
-          Private engagements are selectively limited
+      {/* Footer */}
+      <footer className="px-6 md:px-12 py-12 border-t border-[#10100e]/10 text-center">
+        <p className="text-xs tracking-[0.2em] uppercase text-[#8c7449]">
+          © 2026 SAULT Culinary. All rights reserved.
         </p>
-        <h2 className="mx-auto max-w-5xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.06em] md:text-8xl">
-          Let's build what's next.
-        </h2>
-        <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#514b41]">
-          For brands that need sharper concepts, faster signal, and more ownable menu territory.
-        </p>
-        <button className="mt-10 rounded-full border border-[#10100e] px-9 py-5 text-xs font-semibold uppercase tracking-[0.28em] transition-all hover:bg-[#10100e] hover:text-[#f3eee3]">
-          Start a conversation
-        </button>
-      </section>
+      </footer>
     </main>
   );
 }
